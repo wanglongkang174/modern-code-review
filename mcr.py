@@ -13,34 +13,32 @@ def is_win(game):
     return False
 
 def main():
-    game = [[' ' for _ in range(3)] for _ in range(3)]  # Tic-tac-toe board
+    game = [[' ' for _ in range(3)] for _ in range(3)]  # 初始化井字棋棋盘
     player1 = 'X'
     player2 = 'O'
-    turn = False  # False for player 1's turn, True for player 2's turn. Player 1 first.
-    print("X = Player 1")
-    print("O = Player 2")
-    for n in range(9):
-        turn = not turn  # Switch turns
-        if not turn:
-            print("Player 1: ", end="")
-        else:
-            print("Player 2: ", end="")
-        print("Which cell to mark? i:[1..3], j:[1..3]: ")
-        i, j = map(int, input().split())
-        i -= 1
-        j -= 1
-        if not turn:
-            game[i][j] = 'X'
-        else:
-            game[i][j] = 'O'
-        if is_win(game):
-            print("Win!")
-            break  # Terminate the game
-        if n == 8:  # All cells have been filled
-            print("Tie!")
-        # Show the game board
+    print("欢迎来到井字棋游戏！")
+    print("Player 1 是 'X'")
+    print("Player 2 是 'O'")
+    print("游戏开始：")
+
+    for turn in range(9):
+        current_player = player1 if turn % 2 == 0 else player2
+        print(f"\n轮到 Player {1 if current_player == 'X' else 2} ({current_player}) 下棋！")
+        i, j = get_valid_input(game)  # 获取有效输入
+        game[i][j] = current_player
+
+        # 显示当前棋盘
+        print("\n当前棋盘：")
         for row in game:
-            print(" ".join(row))
+            print(" | ".join(row))
+            print("-" * 9)
+
+        # 检查是否胜利
+        if is_win(game):
+            print(f"Player {1 if current_player == 'X' else 2} ({current_player}) 赢了！")
+            break
+    else:
+        print("游戏平局！")
 
 if __name__ == "__main__":
     main()
